@@ -9,8 +9,49 @@ date: "2024-09-27"
 This assignment has three questions:  
 
 1. in a class of 35 students, Dr. J bets $1 against student's $1  that at least 2 students have the same birthday, month, day.
-Find the probability thatat least two student have the same birthday.  If 26 students in the class take the bet how much is Dr. J expected to win/lose.   How much should Dr. J wager against the student's $1 to make this a fair bet?
+Find the probability that at least two student have the same birthday.  If 26 students in the class take the bet how much is Dr. J expected to win/lose.   How much should Dr. J wager against the student's $1 to make this a fair bet?
 
 2. Assume class size is 26 instead of 35.  With the same bet ($1 ot $1) what is the probability Dr. J wins the bet now.  If 20 of the 26 students make the bet, what is Dr. J's expected profit/loss?
 
 3. What size class (how many students) makes the $1 againt $1 a fair bet?
+
+Question 1: answer below   
+
+
+```{r, echo=TRUE}
+# Set up parameters
+set.seed(123)  # For reproducibility
+n <- 35  # Class size
+simulations <- 100  # Number of simulations
+same_birthday <- numeric(simulations)  # To store probabilities
+
+# Function to check if two or more people share the same birthday
+has_same_birthday <- function(class_size) {
+  birthdays <- sample(1:365, class_size, replace = TRUE)
+  any(duplicated(birthdays))
+}
+
+# Simulate the problem 100 times
+for (i in 1:simulations) {
+  # Repeat the simulation 10,000 times for each i
+  count <- 0
+  for (j in 1:10000) {
+    if (has_same_birthday(n)) {
+      count <- count + 1
+    }
+  }
+  same_birthday[i] <- count / 10000  # Save the probability for this simulation
+}
+
+# Plot a histogram of the probabilities
+hist(same_birthday, main = "Histogram of Birthday Problem Probabilities", 
+     xlab = "Probability", col = "skyblue", border = "white")
+
+# Calculate and print the mean probability
+mean_prob <- mean(same_birthday)
+cat("mean =", mean_prob, "\n")
+
+# Calculate 95% confidence interval
+conf_interval <- quantile(same_birthday, probs = c(0.025, 0.975))
+cat("95% Confidence Interval:", conf_interval, "\n")
+```
