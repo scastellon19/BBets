@@ -55,3 +55,13 @@ cat("mean =", mean_prob, "\n")
 conf_interval <- quantile(same_birthday, probs = c(0.025, 0.975))
 cat("95% Confidence Interval:", conf_interval, "\n")
 ```
+
+```{r}
+EV= mean_prob*26-(1-mean_prob)*26
+print(paste("ev=",EV))
+```
+
+```{r}
+FAIR=(mean_prob)/(1-mean_prob)
+print(paste("fairbet=", FAIR))
+```
