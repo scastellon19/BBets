@@ -15,7 +15,7 @@ Find the probability that at least two student have the same birthday.  If 26 st
 
 3. What size class (how many students) makes the $1 againt $1 a fair bet?
 
-Question 1: answer below   
+##Question 1: answer below   
 
 
 ```{r, echo=TRUE}
@@ -65,3 +65,98 @@ print(paste("ev=",EV))
 FAIR=(mean_prob)/(1-mean_prob)
 print(paste("fairbet=", FAIR))
 ```
+
+The probability that at least two students have the same birthday is .81. Dr. J expected to win.   Dr. J should wager 4.39 against the student's $1 to make this a fair bet.
+
+##Question 2: answer below
+
+```{r, echo=TRUE}
+# Set up parameters
+set.seed(123)  # For reproducibility
+n <- 26  # Class size
+simulations <- 100  # Number of simulations
+same_birthday <- numeric(simulations)  # To store probabilities
+
+# Function to check if two or more people share the same birthday
+has_same_birthday <- function(class_size) {
+  birthdays <- sample(1:365, class_size, replace = TRUE)
+  any(duplicated(birthdays))
+}
+
+# Simulate the problem 100 times
+for (i in 1:simulations) {
+  # Repeat the simulation 10,000 times for each i
+  count <- 0
+  for (j in 1:10000) {
+    if (has_same_birthday(n)) {
+      count <- count + 1
+    }
+  }
+  same_birthday[i] <- count / 10000  # Save the probability for this simulation
+}
+
+# Plot a histogram of the probabilities
+hist(same_birthday, main = "Histogram of Birthday Problem Probabilities", 
+     xlab = "Probability", col = "skyblue", border = "white")
+
+# Calculate and print the mean probability
+mean_prob <- mean(same_birthday)
+cat("mean =", mean_prob, "\n")
+
+# Calculate 95% confidence interval
+conf_interval <- quantile(same_birthday, probs = c(0.025, 0.975))
+cat("95% Confidence Interval:", conf_interval, "\n")
+```
+
+```{r}
+EV= mean_prob*20-(1-mean_prob)*20
+print(paste("ev=",EV))
+```
+With the same bet ($1 ot $1) the probability Dr. J wins the bet now is .60.  If 20 of the 26 students make the bet, Dr. J's expected profit is 3.91.
+
+
+##Question3: Answer below 
+
+```{r, echo=TRUE}
+# Set up parameters
+set.seed(123)  # For reproducibility
+n <- 23  # Class size
+simulations <- 100  # Number of simulations
+same_birthday <- numeric(simulations)  # To store probabilities
+
+# Function to check if two or more people share the same birthday
+has_same_birthday <- function(class_size) {
+  birthdays <- sample(1:365, class_size, replace = TRUE)
+  any(duplicated(birthdays))
+}
+
+# Simulate the problem 100 times
+for (i in 1:simulations) {
+  # Repeat the simulation 10,000 times for each i
+  count <- 0
+  for (j in 1:10000) {
+    if (has_same_birthday(n)) {
+      count <- count + 1
+    }
+  }
+  same_birthday[i] <- count / 10000  # Save the probability for this simulation
+}
+
+# Plot a histogram of the probabilities
+hist(same_birthday, main = "Histogram of Birthday Problem Probabilities", 
+     xlab = "Probability", col = "skyblue", border = "white")
+
+# Calculate and print the mean probability
+mean_prob <- mean(same_birthday)
+cat("mean =", mean_prob, "\n")
+
+# Calculate 95% confidence interval
+conf_interval <- quantile(same_birthday, probs = c(0.025, 0.975))
+cat("95% Confidence Interval:", conf_interval, "\n")
+```
+
+```{r}
+EV= mean_prob*20-(1-mean_prob)*20
+print(paste("ev=",EV))
+```
+The class size would have to be 23 to make the $1 againt $1 a fair bet
